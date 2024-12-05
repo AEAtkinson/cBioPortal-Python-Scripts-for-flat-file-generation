@@ -17,12 +17,12 @@ destination_dir = ("SomaticMafMerge_" + str_currentDateTime)
 shutil.rmtree(destination_dir, ignore_errors=True)
 directory = os.mkdir(destination_dir)
 
-#Read in sample sheet
-SampleInfo = pd.read_csv('cBioportal_genomics_metadata_WelmLabInternal_v12-4_20241202_SDS.txt', sep='\t', header=0)
+#Read in sample sheet with columns 'SAMPLE_ID', 'WES_ID'
+SampleInfo = pd.read_csv('SampleSheet.txt', sep='\t', header=0)
 #Fix columns
 SampleInfo.columns = [c.replace(" ", "_") for c in list(SampleInfo.columns)]
 SampleInfo.columns = SampleInfo.columns.str.upper()
-SampleInfo = SampleInfo[['SAMPLE_ID', 'WES_ID', 'WES_PT_NORMAL_ID']]
+SampleInfo = SampleInfo[['SAMPLE_ID', 'WES_ID']]
 SampleInfo.to_csv('SampleInfo.txt', sep='\t', index=False)
 RENAME = SampleInfo[['SAMPLE_ID', 'WES_ID']]
 RENAME.dropna(subset=['WES_ID'], inplace=True)
